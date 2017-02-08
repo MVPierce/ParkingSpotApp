@@ -33,6 +33,8 @@ class ViewController: UIViewController {
     // Search Radius in meters
     var radius: Double = 172
     
+    var spotPopover: UIPopoverPresentationController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -192,12 +194,51 @@ class ViewController: UIViewController {
         }
     }
     
+    func showSpotPopover(_ annotationView: MKAnnotationView, spot: ParkingSpot) {
+        // Create a new CLLocation instance with the passed in annotation View
+        let location = CLLocation(latitude: annotationView.annotation!.coordinate.latitude, longitude: annotationView.annotation!.coordinate.longitude)
+        
+        // Make sure the map is centered on that location
+        centerMapOnLocation(location)
+        
+        // Create a new instance of SpotPopoverVC
+        let spotDetail = SpotPopoverViewController()
+        spotDetail.height = 150
+        spotDetail.width = width*0.90
+        spotDetail.delegate = self
+        spotDetail.parkingSpot = spot
+       
+        spotDetail.modalPresentationStyle = .popover
+        spotDetail.preferredContentSize = CGSize(width: width*0.90, height: 150)
+        
+        let popoverViewController = spotDetail.popoverPresentationController
+        popoverViewController?.permittedArrowDirections = .down
+        popoverViewController?.delegate = self
+        popoverViewController?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        
+        popoverViewController?.sourceView = self.view
+        popoverViewController?.sourceRect = CGRect(x: width/2 - annotationView.bounds.width/2, y: ((height-20)/2 - annotationView.bounds.height/2), width: annotationView.bounds.width, height: annotationView.bounds.height)
+        
+        // Present the View Controller
+        self.present(spotDetail, animated: true, completion: nil)
+        
+        spotPopover = popoverViewController
+    }
+    
+
+    
 }
 
 // MARK: - MapViewDelegate
 extension ViewController: MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("Annotation Selected")
         
+        var spot = parkingSpots.filter{ view.annotation!.coordinate.isApproximated(to: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude), discretion: 0.5) }
+        if spot.count == 0 {
+            spot = parkingSpots.filter{ view.annotation!.coordinate.isApproximated(to: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude), discretion: 0) }
+        }
+        showSpotPopover(view, spot: spot.first!)
     }
 }
 
@@ -241,5 +282,21 @@ extension ViewController: APIManagerDelegate {
         parkingSpots = spots
         // Dismiss loading View (if applicable)
         dismissLoadingView()
+    }
+}
+
+// MARK: - Popover Controller Delegate
+extension ViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(
+        for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+}
+
+extension ViewController: SpotPopoverViewControllerDelegate {
+    func paymentAuthorized() {
+        if let _ = spotPopover {
+            dismiss(animated: true, completion: nil)
+        }
     }
 }

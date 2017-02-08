@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BE74D7371E4A9F6E00F51C76 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE74D7361E4A9F6E00F51C76 /* MapKit.framework */; };
 		BE74D7391E4AA2BA00F51C76 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE74D7381E4AA2BA00F51C76 /* Utils.swift */; };
+		BE74D73B1E4AAB7E00F51C76 /* SpotPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE74D73A1E4AAB7E00F51C76 /* SpotPopoverViewController.swift */; };
 		BEA8E3C01E4A919B00CAEEC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA8E3BF1E4A919B00CAEEC7 /* AppDelegate.swift */; };
 		BEA8E3C21E4A919B00CAEEC7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA8E3C11E4A919B00CAEEC7 /* ViewController.swift */; };
 		BEA8E3C51E4A919B00CAEEC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA8E3C31E4A919B00CAEEC7 /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		BE74D7361E4A9F6E00F51C76 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		BE74D7381E4AA2BA00F51C76 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		BE74D73A1E4AAB7E00F51C76 /* SpotPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotPopoverViewController.swift; sourceTree = "<group>"; };
 		BEA8E3BC1E4A919B00CAEEC7 /* ParkingSpotApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkingSpotApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA8E3BF1E4A919B00CAEEC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEA8E3C11E4A919B00CAEEC7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			children = (
 				BEA8E3BF1E4A919B00CAEEC7 /* AppDelegate.swift */,
 				BEA8E3C11E4A919B00CAEEC7 /* ViewController.swift */,
+				BE74D73A1E4AAB7E00F51C76 /* SpotPopoverViewController.swift */,
 				BEA8E3C31E4A919B00CAEEC7 /* Main.storyboard */,
 				BEA8E3C61E4A919B00CAEEC7 /* Assets.xcassets */,
 				BEA8E3C81E4A919B00CAEEC7 /* LaunchScreen.storyboard */,
@@ -165,6 +168,7 @@
 			files = (
 				BE74D7391E4AA2BA00F51C76 /* Utils.swift in Sources */,
 				BED41A691E4A936700A606CF /* APIManager.swift in Sources */,
+				BE74D73B1E4AAB7E00F51C76 /* SpotPopoverViewController.swift in Sources */,
 				BEA8E3C21E4A919B00CAEEC7 /* ViewController.swift in Sources */,
 				BED41A6B1E4A952000A606CF /* ParkingSpot.swift in Sources */,
 				BEA8E3C01E4A919B00CAEEC7 /* AppDelegate.swift in Sources */,
