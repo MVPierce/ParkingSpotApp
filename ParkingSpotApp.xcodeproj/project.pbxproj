@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE74D7371E4A9F6E00F51C76 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE74D7361E4A9F6E00F51C76 /* MapKit.framework */; };
+		BE74D7391E4AA2BA00F51C76 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE74D7381E4AA2BA00F51C76 /* Utils.swift */; };
 		BEA8E3C01E4A919B00CAEEC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA8E3BF1E4A919B00CAEEC7 /* AppDelegate.swift */; };
 		BEA8E3C21E4A919B00CAEEC7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA8E3C11E4A919B00CAEEC7 /* ViewController.swift */; };
 		BEA8E3C51E4A919B00CAEEC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA8E3C31E4A919B00CAEEC7 /* Main.storyboard */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BE74D7361E4A9F6E00F51C76 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		BE74D7381E4AA2BA00F51C76 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		BEA8E3BC1E4A919B00CAEEC7 /* ParkingSpotApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkingSpotApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA8E3BF1E4A919B00CAEEC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEA8E3C11E4A919B00CAEEC7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -33,17 +37,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE74D7371E4A9F6E00F51C76 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE74D7351E4A9F6E00F51C76 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BE74D7361E4A9F6E00F51C76 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BEA8E3B31E4A919B00CAEEC7 = {
 			isa = PBXGroup;
 			children = (
 				BEA8E3BE1E4A919B00CAEEC7 /* ParkingSpotApp */,
 				BEA8E3BD1E4A919B00CAEEC7 /* Products */,
+				BE74D7351E4A9F6E00F51C76 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,6 +80,7 @@
 				BEA8E3CB1E4A919B00CAEEC7 /* Info.plist */,
 				BED41A681E4A936700A606CF /* APIManager.swift */,
 				BED41A6A1E4A952000A606CF /* ParkingSpot.swift */,
+				BE74D7381E4AA2BA00F51C76 /* Utils.swift */,
 			);
 			path = ParkingSpotApp;
 			sourceTree = "<group>";
@@ -104,6 +119,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = U657B7FNB5;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -143,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE74D7391E4AA2BA00F51C76 /* Utils.swift in Sources */,
 				BED41A691E4A936700A606CF /* APIManager.swift in Sources */,
 				BEA8E3C21E4A919B00CAEEC7 /* ViewController.swift in Sources */,
 				BED41A6B1E4A952000A606CF /* ParkingSpot.swift in Sources */,
