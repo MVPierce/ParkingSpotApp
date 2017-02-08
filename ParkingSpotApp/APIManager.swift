@@ -30,7 +30,7 @@ class APIManager {
                 return
             }
            
-            
+            // Normally I would use something like SwiftyJSON, but since I'm seriously limited for time here, and don't want to use up precious time setting up CocoaPods, I'm just using the basic JSONSerialization tools with Swift.
             let jsonObject:[NSMutableDictionary]? = (try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)) as! [NSMutableDictionary]?
             
             if let jsonObject = jsonObject {
@@ -43,6 +43,7 @@ class APIManager {
     
     func getParkingLocations() {
         getJSONData { locations in
+            // Make asynchronous callback to alert ViewController that locations have been retrieved and parsed into ParkingSpot objects.
             DispatchQueue.main.async {
                 self.delegate?.parkingSpotsRetrieved(spots: self.parseLocations(locations))
             }
@@ -53,8 +54,9 @@ class APIManager {
         
         makeGETRequest(path: apiURL, onCompletion: { json, error in
             if error == nil {
-               
+                // Call completion handler
                 onCompletion(json)
+                
             } else {
                 
                 DispatchQueue.main.async {

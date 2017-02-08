@@ -30,7 +30,8 @@ class ViewController: UIViewController {
     
     var spotsLoaded: Bool = false
     
-    let radius: Double = 172
+    // Search Radius in meters
+    var radius: Double = 172
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,20 +39,26 @@ class ViewController: UIViewController {
         width = view.bounds.width
         height = view.bounds.height
         
+        // Update map when method from Utils.swift has calculated nearby spots based on radius property
         NotificationCenter.default.addObserver(self, selector: #selector(foundNearbySpots(_:)), name: NSNotification.Name(rawValue: "FoundNearbySpots"), object: nil)
         
+        // Create instance of API manager
         apiManager = APIManager()
         apiManager.delegate = self
         apiManager.getParkingLocations()
         
+        // Set the location manager delegate
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled() {
+            // Set user's location accuracy within one hundred meters
             locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+            // Request the user's location
             locationManager.requestLocation()
         }
         
+        // Add the map to the view
         setupMap()
     }
 
@@ -61,6 +68,7 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        // If the spots haven't loaded, show the user a view to let them know they are loading
         if !spotsLoaded {
             showLoadingLocations()
             self.view.layoutIfNeeded()
@@ -69,10 +77,13 @@ class ViewController: UIViewController {
                     loadingView.alpha = 1.0
                 })
             }
+        } else {
+            self.getNearbySpotsWithinRadius()
         }
     }
     
     func setupMap() {
+        // Create a new mapView instance and add it to the view
         mapView = MKMapView()
         mapView.delegate = self
         view.addSubview(mapView)
@@ -81,13 +92,14 @@ class ViewController: UIViewController {
 
     
     func centerMapOnLocation(_ location: CLLocation) {
+        // Center map on location
         let regionRadius: CLLocationDistance = 150
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius, regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
     func showLoadingLocations() {
-        
+        // This is just a basic view to show the user that the parking spots are being retrieved.
         let loadingContainer = UIView()
         view.addSubview(loadingContainer)
         loadingContainer.frame = CGRect(x: 0, y: 0, width: width, height: height)
@@ -120,8 +132,9 @@ class ViewController: UIViewController {
         loadingView = loadingContainer
     }
     
+    // If the locations weren't loaded when the view appeared, show a loading view to let the user know they are loading.
     func dismissLoadingView() {
-        guard let loadingView = loadingView else { return }
+        guard let loadingView = loadingView else { getNearbySpotsWithinRadius(); return }
         UIView.animate(withDuration: 0.5, animations: {
             loadingView.alpha = 0
         }, completion: {action in
@@ -132,10 +145,15 @@ class ViewController: UIViewController {
             loadingView.removeFromSuperview()
             self.loadingView = nil
             
-            let targetDate = Date(timeIntervalSinceNow: 3600)
-            getLocationsWithinRadius(from: self.currentLocation.placemark.location!, locationSet: self.parkingSpots, radius: self.radius, withinDate: targetDate)
+            self.getNearbySpotsWithinRadius()
             
         })
+    }
+    
+    // Calculate any nearby spots within certain radius
+    func getNearbySpotsWithinRadius() {
+        let targetDate = Date(timeIntervalSinceNow: 3600)
+        getLocationsWithinRadius(from: self.currentLocation.placemark.location!, locationSet: self.parkingSpots, radius: self.radius, withinDate: targetDate)
     }
     
     func showNearbyCoordinatesOnMap(_ spots: [ParkingSpot]) {
@@ -163,7 +181,13 @@ class ViewController: UIViewController {
         if let userInfo = notification.userInfo {
             for (_, spots) in userInfo {
                 let nearby = spots as! [ParkingSpot]
-                showNearbyCoordinatesOnMap(nearby)
+                if nearby.count > 1 {
+                    showNearbyCoordinatesOnMap(nearby)
+                } else {
+                    // If there aren't any nearby spots, expand search radius and search again.
+                    self.radius *= 2
+                    getNearbySpotsWithinRadius()
+                }
             }
         }
     }
@@ -208,11 +232,14 @@ extension ViewController: CLLocationManagerDelegate {
 // MARK: - APIManagerDelegate
 extension ViewController: APIManagerDelegate {
     func errorWithGETRequest() {
-        
+        print("Error with GET request from API call")
     }
     func parkingSpotsRetrieved(spots: [ParkingSpot]) {
+        // Set the spotsLoaded bool
         spotsLoaded = true
+        // Assign the parkingSpots array
         parkingSpots = spots
+        // Dismiss loading View (if applicable)
         dismissLoadingView()
     }
 }

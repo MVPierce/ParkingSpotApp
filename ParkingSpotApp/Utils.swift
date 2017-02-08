@@ -9,15 +9,6 @@
 import Foundation
 import CoreLocation
 
-func getLocationsWithinRadius(from: ParkingSpot, locationSet: [ParkingSpot], radius: Double, withinDate: Date?)  {
-    DispatchQueue.global(qos: .background).async {
-        let nearbySpots = locationSet.filter { from.distance(to: $0) <= radius && ($0.isReserved == false || ( $0.isReserved == true && (withinDate != nil && ($0.reservedUntil! < withinDate!))))} // Find parking spot location within radius that isn't reserved OR isn't reseved during the requested time frame
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "FoundNearbySpots"), object: nil, userInfo:["":nearbySpots])
-        }
-    }
-}
-
 func getLocationsWithinRadius(from: CLLocation, locationSet: [ParkingSpot], radius: Double, withinDate: Date?){
     DispatchQueue.global(qos: .background).async {
         let nearbySpots = locationSet.filter { from.distance(to: $0) <= radius && ($0.isReserved == false || ( $0.isReserved == true && (withinDate != nil && ($0.reservedUntil! < withinDate!))))}
@@ -56,7 +47,7 @@ extension CLLocation {
 
 extension CLLocationCoordinate2D {
     func isApproximated(to: CLLocationCoordinate2D, discretion: Double) -> Bool {
-        // ∑ is margin for error in checking coordinates
+        // E is margin for error
         let E:Double = 0.0003 - (discretion * 0.0001)
         return (fabs(self.latitude - to.latitude) <= E && (fabs(self.longitude - to.longitude) <= E))
     }
